@@ -14,7 +14,6 @@ import {
   CartesianGrid
 } from 'recharts'
 
-
 export default function KPIsClient() {
   const [data, setData] = useState<KPI[] | null>(null)
   const [loading, setLoading] = useState(true)
@@ -33,51 +32,50 @@ export default function KPIsClient() {
   if (loading) return <div className="opacity-70">جاري تحميل المؤشرات…</div>
   if (!data) return <div className="opacity-70">لا توجد بيانات.</div>
 
-  const f = data.find(d => d.key === 'Finance')!
-  const h = data.find(d => d.key === 'HR')!
-  const o = data.find(d => d.key === 'Operations')!
-
-  // دمج السلاسل حسب التاريخ
-  const merged = (() => {
-    const map = new Map<string, any>()
-    for (const kpi of data) {
-      for (const p of kpi.timeseries) {
-        if (!map.has(p.date)) map.set(p.date, { date: p.date })
-        map.get(p.date)[kpi.key] = p.value
-      }
-    }
-    return Array.from(map.values()).sort((a, b) => a.date.localeCompare(b.date))
-  })()
+  const kpis = ['Finance', 'HR', 'Operations'] as const
 
   return (
-    <div className="grid gap-6">
-      <div className="grid md:grid-cols-3 gap-4">
-        <KpiCard title="Finance" value={f.current} delta={f.delta} accent="primary" />
-        <KpiCard title="HR" value={h.current} delta={h.delta} accent="secondary" />
-        <KpiCard title="Operations" value={o.current} delta={o.delta} accent="primary" />
+    <div className="flex flex-col gap-6">
+      {/* شبكة responsive ديناميكية */}
+      <div className="grid gap-6 justify-center"
+           style={{
+             gridTemplateColumns: 'repeat(auto-fit, minmax(650px, 1fr))'
+           }}
+      >
+        {kpis.map((key) => {
+          const kpi = data.find(d => d.key === key)!
+          const accent = key === 'HR' ? 'secondary' : 'primary'
+
+          return (
+            <Card
+              key={key}
+              className=" shadow-xl rounded-3xl p-6 flex flex-col items-center justify-center w-full"
+            >
+              {/* البطاقة + الرسم البياني */}
+              <KpiCard title={key} value={kpi.current} delta={kpi.delta} accent={accent} />
+
+              <div className="h-48 w-full mt-4">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={kpi.timeseries}>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.12} />
+                    <XAxis dataKey="date" tick={{ fontSize: 12 }} />
+                    <YAxis tick={{ fontSize: 12 }} />
+                    <Tooltip />
+                    <Legend />
+                    <Line
+                      type="monotone"
+                      dataKey="value"
+                      stroke={key === 'Finance' ? '#146C43' : key === 'HR' ? '#C4A951' : '#146C43'}
+                      strokeWidth={2.5}
+                      dot={false}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </Card>
+          )
+        })}
       </div>
-
-      <Card>
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">النمو الشهري — خطي</h3>
-          <div className="text-xs opacity-60">مصدر: API وهمية</div>
-        </div>
-
-        <div className="h-80">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={merged} margin={{ top: 10, right: 10, bottom: 0, left: 10 }}>
-              <CartesianGrid strokeDasharray="3 3" opacity={0.12} />
-              <XAxis dataKey="date" tick={{ fontSize: 12 }} />
-              <YAxis tick={{ fontSize: 12 }} />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="Finance" stroke="#146C43" strokeWidth={2.5} dot={false} />
-              <Line type="monotone" dataKey="HR" stroke="#C4A951" strokeWidth={2.5} dot={false} />
-              <Line type="monotone" dataKey="Operations" stroke="#38bdf8" strokeWidth={2.5} dot={false} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-      </Card>
     </div>
   )
 }

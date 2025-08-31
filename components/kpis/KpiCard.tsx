@@ -4,7 +4,7 @@ import { ArrowUpRight, ArrowDownRight } from 'lucide-react'
 export default function KpiCard({ title, value, delta, accent }: { title: string; value: number; delta: number; accent: 'primary' | 'secondary' }) {
   const up = delta >= 0
   return (
-    <Card className="flex items-center justify-between">
+    <Card className="flex items-center justify-start gap-3">
       <div>
         <div className="text-sm opacity-70 mb-1">{title}</div>
         <div className="text-3xl font-extrabold text-[var(--color-panel)]">{value.toLocaleString('en-US')}</div>
