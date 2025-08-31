@@ -5,7 +5,7 @@ import Avatar from '../ui/Avatar'
 
 export default function Navbar() {
   return (
-    <header className="h-16  border-b border-white/5 backdrop-blur-sm flex items-center px-4 md:px-6">
+    <header className="h-16 sticky top-0 z-50 shadow-lg border-white/5 backdrop-blur-sm flex items-center px-4 md:px-6 bg-[var(--color-primary)]/20">
       <Serchbox/>
 
       <div className="flex items-center gap-3">

@@ -25,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ar">
       <body className="min-h-screen flex bg-transparent">
         <Sidebar />
         <div className="flex-1 flex flex-col">
