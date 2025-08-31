@@ -3,8 +3,12 @@
 ## نظرة عامة
 
 هذا المشروع عبارة عن **لوحة مؤشرات الأداء (KPIs)** باستخدام Next.js (App Router) و TypeScript، ويعرض بيانات مالية وموارد بشرية وعملياتية.  
+
+واجهة 1
 ![واجهة KPIs](/public/screenshots/allscreen.png)
+واجهة 1 مع التفاعل
 ![واجهة KPIs](/public/screenshots/allscreen2.png)
+الواجهة responsive
 ![with responsive](/public/screenshots/allscreen-responsive.png)
 
 
