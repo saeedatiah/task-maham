@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 export default function Sidebar() {
   const pathname = usePathname()
   return (
-    <aside className="w-72 hidden md:flex flex-col gap-4 p-4 border-l border-white/5 bg-[color:var(--panel)]/80 sticky top-0 h-screen">
+    <aside className="w-72 hidden md:flex flex-col gap-4 p-4 border-l border-white/5  sticky top-0 h-screen">
       <div className="px-1 py-3">
         Logo 
       </div>
@@ -20,9 +20,6 @@ export default function Sidebar() {
           <BarChart3 /> <span className="font-medium">المؤشرات التنفيذية</span>
         </Link>
 
-        <Link href="/settings" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-white/90">
-          <Settings /> <span className="font-medium">الإعدادات</span>
-        </Link>
       </nav>
 
       <div className="mt-auto text-xs opacity-60 px-2">© {new Date().getFullYear()} Executive Suite</div>
